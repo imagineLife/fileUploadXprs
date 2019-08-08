@@ -19,11 +19,14 @@ const storageLocation = multer.diskStorage({
 	}
 })
 
+//max-bytes 
+const numberOfBytes = 1000000
+
 //Multer uploader
 const uploadFile = multer({
 	storage: storageLocation,
 
-	limits: {fileSize: numberOfBytes IE 1000000}, //sets a file-size limit
+	limits: {fileSize: numberOfBytes}, //sets a file-size limit
 	
 	//assurance of IMAGE-ONLY type
 	fileFilter: function(req,file,cb){
@@ -64,10 +67,20 @@ app.use(express.static('./public'))
 app.post('/uploadFile', (req,res) => {
 	
 	uploadFile(req,res, (err) => {
+		
 		if(!err){
-			console.log('FILE!!')
-			console.log(req.file)
-			res.send('miCCheck')
+
+			//if no file selected
+			if(req.file == undefined){
+				res.render('index', {
+					msg: `Error: No file selected`
+				})
+			}else{
+				console.log('FILE!!')
+				console.log(req.file)
+				res.send('miCCheck')
+			}
+		//error handling
 		}else{
 			res.render('index', {
 				msg: err
