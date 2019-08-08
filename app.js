@@ -23,7 +23,7 @@ const storageLocation = multer.diskStorage({
 const uploadFile = multer({
 	storage: storageLocation,
 
-	// limits: {fileSize: numberOfBytes IE 1000000} //sets a file-size limit
+	limits: {fileSize: numberOfBytes IE 1000000}, //sets a file-size limit
 	
 	//assurance of IMAGE-ONLY type
 	fileFilter: function(req,file,cb){
